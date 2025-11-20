@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6a9e3714ba0eff3d8a6a4284c870cbd2",
+    "identityHash": "3fa340fbf42407221d0650e43d4ad497",
     "entities": [
       {
-        "tableName": "TodoEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL)",
+        "tableName": "records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `score` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,9 +15,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -31,7 +37,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6a9e3714ba0eff3d8a6a4284c870cbd2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3fa340fbf42407221d0650e43d4ad497')"
     ]
   }
 }

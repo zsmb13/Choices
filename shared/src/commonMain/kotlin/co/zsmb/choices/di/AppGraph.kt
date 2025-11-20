@@ -2,7 +2,7 @@ package co.zsmb.choices.di
 
 import androidx.room.RoomDatabase
 import co.zsmb.choices.data.AppDatabase
-import co.zsmb.choices.data.TodoDao
+import co.zsmb.choices.data.RecordDao
 import co.zsmb.choices.data.configureAndBuild
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
@@ -11,7 +11,7 @@ import dev.zacsweers.metro.SingleIn
 
 @DependencyGraph(AppScope::class)
 interface AppGraph {
-    val todoDao: TodoDao
+    val recordDao: RecordDao
 
     @Provides
     @SingleIn(AppScope::class)
@@ -20,7 +20,7 @@ interface AppGraph {
 
     @Provides
     @SingleIn(AppScope::class)
-    fun provideDao(database: AppDatabase): TodoDao = database.getDao()
+    fun provideDao(database: AppDatabase): RecordDao = database.getDao()
 
     @DependencyGraph.Factory
     fun interface Factory {

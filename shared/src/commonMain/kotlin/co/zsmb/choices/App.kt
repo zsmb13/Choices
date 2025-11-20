@@ -19,10 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.room.RoomDatabase
 import co.zsmb.choices.data.AppDatabase
-import co.zsmb.choices.data.TodoEntity
+import co.zsmb.choices.data.Record
 import co.zsmb.choices.di.AppGraph
 import dev.zacsweers.metro.createGraphFactory
 import kotlinx.coroutines.launch
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.random.Random
+import kotlin.time.Clock
 
 @Composable
 @Preview
@@ -33,7 +37,7 @@ fun App(dbBuilder: RoomDatabase.Builder<AppDatabase>) {
     }
 
     // TODO inject into a VM
-    val dao = remember { graph.todoDao }
+    val dao = remember { graph.recordDao }
 
     MaterialTheme {
         Column(
@@ -44,25 +48,33 @@ fun App(dbBuilder: RoomDatabase.Builder<AppDatabase>) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val flow = remember { dao.getAllAsFlow() }
-            val todos by flow.collectAsStateWithLifecycle(emptyList())
+            val records by flow.collectAsStateWithLifecycle(emptyList())
+            val score by remember { dao.score() }.collectAsStateWithLifecycle(-1)
 
             val scope = rememberCoroutineScope()
 
+            Text("Score: $score")
+
             Button(onClick = {
-                scope.launch { dao.insert(TodoEntity(title = "Item")) }
+                scope.launch {
+                    dao.insert(
+                        Record(
+                            score = Random.nextBoolean(),
+                            timestamp = Clock.System.now(),
+                        )
+                    )
+                }
             }) {
                 Text("Add item")
             }
 
-            Button(onClick = {
-                scope.launch { dao.deleteAll() }
-            }) {
+            Button(onClick = { scope.launch { dao.deleteAll() } }) {
                 Text("Delete all items")
             }
 
             LazyColumn {
-                items(todos) {
-                    Text("${it.id} | ${it.title}")
+                items(records) {
+                    Text("${it.id} | ${it.score} | ${it.timestamp.toLocalDateTime(TimeZone.UTC)}")
                 }
             }
         }
