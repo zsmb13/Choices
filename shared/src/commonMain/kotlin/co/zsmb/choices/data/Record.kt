@@ -2,7 +2,7 @@ package co.zsmb.choices.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlin.time.Instant
+import kotlinx.datetime.Instant
 
 @Entity(tableName = "records")
 data class Record(
@@ -10,6 +10,8 @@ data class Record(
     val id: Long = 0,
 
     val score: Boolean,
+
+    val comment: String?,
 
     val timestamp: Instant,
 )
