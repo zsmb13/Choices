@@ -14,9 +14,6 @@ kotlin {
         implementation(projects.shared)
 
         implementation(libs.androidx.activity.compose)
-
-        implementation(compose.components.uiToolingPreview)
-        debugImplementation(compose.uiTooling)
     }
 }
 
