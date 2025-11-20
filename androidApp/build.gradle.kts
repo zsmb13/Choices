@@ -21,11 +21,11 @@ kotlin {
 }
 
 android {
-    namespace = "org.example.project"
+    namespace = "co.zsmb.choices"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.example.project"
+        applicationId = "co.zsmb.choices"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

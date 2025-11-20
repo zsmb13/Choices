@@ -24,7 +24,7 @@ kotlin {
     jvm()
     
     androidLibrary {
-       namespace = "org.example.project.shared"
+       namespace = "co.zsmb.choices.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
     
