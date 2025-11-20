@@ -56,7 +56,8 @@ kotlin {
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
-            implementation(libs.androidx.room.runtime)
+            // TODO make this an implementation dependency again
+            api(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
         }
         commonTest.dependencies {
