@@ -11,18 +11,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.zacsweers.metro.createGraph
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import kotlinproject.shared.generated.resources.Res
 import kotlinproject.shared.generated.resources.compose_multiplatform
+import org.example.project.di.AppGraph
 
 @Composable
 @Preview
 fun App(viewModel: AppViewModel = viewModel { AppViewModel() }) {
+    val graph = remember { createGraph<AppGraph>() }
+
     MaterialTheme {
         Column(
             modifier = Modifier
