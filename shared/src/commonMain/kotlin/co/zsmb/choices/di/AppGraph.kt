@@ -11,7 +11,8 @@ import dev.zacsweers.metro.SingleIn
 
 @DependencyGraph(AppScope::class)
 interface AppGraph {
-    val recordDao: RecordDao
+
+    val viewModelFactory: MetroViewModelFactory
 
     @Provides
     @SingleIn(AppScope::class)

@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,19 +27,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import co.zsmb.choices.data.Record
-import co.zsmb.choices.data.RecordDao
-import kotlinx.coroutines.launch
-import kotlin.time.Clock
+import co.zsmb.choices.di.metroViewModel
 
 @Composable
 fun MainScreen(
-    dao: RecordDao,
     onShowList: () -> Unit,
 ) {
-    val score by remember { dao.score() }.collectAsStateWithLifecycle(0)
+    val viewModel: MainViewModel = metroViewModel()
+    val score by viewModel.score.collectAsStateWithLifecycle()
     var comment by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -72,16 +67,8 @@ fun MainScreen(
         ) {
             Button(
                 onClick = {
-                    scope.launch {
-                        dao.insert(
-                            Record(
-                                score = true,
-                                timestamp = Clock.System.now(),
-                                comment = comment.trim().ifBlank { null },
-                            )
-                        )
-                        comment = ""
-                    }
+                    viewModel.addRecord(true, comment)
+                    comment = ""
                 },
                 modifier = Modifier
                     .weight(2f)
@@ -94,16 +81,8 @@ fun MainScreen(
 
             Button(
                 onClick = {
-                    scope.launch {
-                        dao.insert(
-                            Record(
-                                score = false,
-                                timestamp = Clock.System.now(),
-                                comment = comment.trim().ifBlank { null },
-                            )
-                        )
-                        comment = ""
-                    }
+                    viewModel.addRecord(false, comment)
+                    comment = ""
                 },
                 modifier = Modifier
                     .weight(1f)
