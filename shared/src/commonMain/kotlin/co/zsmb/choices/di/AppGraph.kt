@@ -4,6 +4,7 @@ import androidx.room.RoomDatabase
 import co.zsmb.choices.data.AppDatabase
 import co.zsmb.choices.data.RecordDao
 import co.zsmb.choices.data.configureAndBuild
+import co.zsmb.choices.screens.DetailViewModel
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
@@ -13,6 +14,8 @@ import dev.zacsweers.metro.SingleIn
 interface AppGraph {
 
     val viewModelFactory: MetroViewModelFactory
+
+    val assistedDetailViewModelFactory: DetailViewModel.Factory
 
     @Provides
     @SingleIn(AppScope::class)

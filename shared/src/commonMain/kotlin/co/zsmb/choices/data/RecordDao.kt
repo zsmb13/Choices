@@ -30,4 +30,7 @@ interface RecordDao {
 
     @Query("DELETE FROM records WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("SELECT * FROM records WHERE id = :id")
+    fun getById(id: Long): Flow<Record>
 }

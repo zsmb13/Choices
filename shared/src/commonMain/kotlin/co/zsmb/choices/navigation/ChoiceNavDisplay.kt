@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
+import co.zsmb.choices.screens.DetailScreen
 import co.zsmb.choices.screens.ListScreen
 import co.zsmb.choices.screens.MainScreen
 
@@ -28,6 +29,13 @@ fun ChoiceNavDisplay() {
             }
             entry<ListRoute> {
                 ListScreen(
+                    onBack = { backstack.removeLastOrNull() },
+                    onRecordClick = { id -> backstack.add(DetailRoute(id)) }
+                )
+            }
+            entry<DetailRoute> { args ->
+                DetailScreen(
+                    recordId = args.id,
                     onBack = { backstack.removeLastOrNull() }
                 )
             }

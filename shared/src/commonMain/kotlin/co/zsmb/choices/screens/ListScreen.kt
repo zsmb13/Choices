@@ -46,6 +46,7 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun ListScreen(
     onBack: () -> Unit,
+    onRecordClick: (Long) -> Unit,
 ) {
     val viewModel: ListViewModel = metroViewModel()
     val records by viewModel.records.collectAsStateWithLifecycle()
@@ -114,7 +115,7 @@ fun ListScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .combinedClickable(
-                            onClick = {},
+                            onClick = { onRecordClick(rec.id) },
                             onLongClick = { menuForId = rec.id }
                         )
                 ) {

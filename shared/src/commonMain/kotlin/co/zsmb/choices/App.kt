@@ -12,11 +12,17 @@ import co.zsmb.choices.navigation.ChoiceNavDisplay
 @Composable
 fun App(appGraph: AppGraph) {
     MaterialTheme {
-        CompositionLocalProvider(LocalViewModelFactory provides appGraph.viewModelFactory) {
+        CompositionLocalProvider(
+            LocalAppGraph provides appGraph,
+            LocalViewModelFactory provides appGraph.viewModelFactory,
+        ) {
             ChoiceNavDisplay()
         }
     }
 }
+
+val LocalAppGraph: ProvidableCompositionLocal<AppGraph> =
+    compositionLocalOf { error("App graph not set") }
 
 val LocalViewModelFactory: ProvidableCompositionLocal<MetroViewModelFactory> =
     compositionLocalOf { error("ViewModel factory not set") }

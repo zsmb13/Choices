@@ -10,3 +10,6 @@ data object MainRoute : AppRoute
 
 @Serializable
 data object ListRoute : AppRoute
+
+@Serializable
+data class DetailRoute(val id: Long) : AppRoute
