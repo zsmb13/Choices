@@ -42,7 +42,7 @@ jobs:
 
   build-ios:
     name: Build iOS
-    runs-on: macOS-latest
+    runs-on: macOS-26
     steps:
       - name: Check out code
         uses: actions/checkout@v4
