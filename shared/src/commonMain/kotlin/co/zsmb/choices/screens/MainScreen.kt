@@ -2,13 +2,12 @@ package co.zsmb.choices.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -61,34 +60,32 @@ fun MainScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Button(
                 onClick = {
                     viewModel.addRecord(true, comment)
                     comment = ""
                 },
-                modifier = Modifier
-                    .weight(2f)
-                    .height(96.dp),
+                modifier = Modifier.weight(2f).fillMaxWidth(.8f),
+                shape = RoundedCornerShape(32.dp)
             ) {
-                Text("+", fontSize = 36.sp)
+                Text("+", fontSize = 96.sp)
             }
 
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.height(12.dp))
 
             Button(
                 onClick = {
                     viewModel.addRecord(false, comment)
                     comment = ""
                 },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(96.dp),
+                modifier = Modifier.weight(1f).fillMaxWidth(.7f),
+                shape = RoundedCornerShape(32.dp)
             ) {
-                Text("-", fontSize = 36.sp)
+                Text("-", fontSize = 48.sp)
             }
         }
 
@@ -104,7 +101,7 @@ fun MainScreen(
             keyboardActions = KeyboardActions(onDone = { /* no-op */ })
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(Modifier.height(16.dp))
 
         TextButton(
             onClick = onShowList,
