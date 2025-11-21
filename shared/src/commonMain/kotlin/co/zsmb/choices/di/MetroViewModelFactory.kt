@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 @ContributesBinding(AppScope::class)
 class MetroViewModelFactory(
     private val viewModelProviders: Map<KClass<out ViewModel>, Provider<ViewModel>>,
-    private val viewModelFactories: Map<KClass<out ViewModel>, ViewModelProvider.Factory>,
+    private val viewModelFactories: Map<KClass<out ViewModel>, SingleViewModelFactory>,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
@@ -22,15 +22,27 @@ class MetroViewModelFactory(
 
         @Suppress("UNCHECKED_CAST")
         return try {
-            if (provider != null) {
-                provider()
-            } else if (factory != null) {
-                factory.create(modelClass, extras)
-            } else {
-                throw RuntimeException("No provider or factory found for $modelClass")
+            when {
+                provider != null -> provider()
+                factory != null -> factory.create(modelClass, extras)
+                else -> throw RuntimeException("No provider or factory found for $modelClass")
             }
         } catch (e: Exception) {
             throw RuntimeException(e)
         } as T
     }
+}
+
+/**
+ * A simplified ViewModelFactory interface to implement with factories
+ * that will only ever provide a single type of ViewModel and the type
+ * is already matched via binding keys.
+ */
+interface SingleViewModelFactory : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
+        @Suppress("UNCHECKED_CAST")
+        return create(extras) as T
+    }
+
+    abstract fun create(extras: CreationExtras): ViewModel
 }

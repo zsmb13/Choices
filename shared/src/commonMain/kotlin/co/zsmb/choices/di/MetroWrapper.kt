@@ -9,17 +9,13 @@ import androidx.compose.runtime.compositionLocalOf
 val LocalAppGraph: ProvidableCompositionLocal<AppGraph> =
     compositionLocalOf { error("App graph not set") }
 
-val LocalViewModelFactory: ProvidableCompositionLocal<MetroViewModelFactory> =
-    compositionLocalOf { error("ViewModel factory not set") }
-
 @Composable
-fun MetroLocalProvider(
+fun MetroGraphProvider(
     appGraph: AppGraph,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalAppGraph provides appGraph,
-        LocalViewModelFactory provides appGraph.viewModelFactory,
         content = content,
     )
 }

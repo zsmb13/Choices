@@ -3,6 +3,7 @@ package co.zsmb.choices.di
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -14,6 +15,7 @@ inline fun <reified T : ViewModel> metroViewModel(
     viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     },
+    factory: ViewModelProvider.Factory = LocalAppGraph.current.viewModelFactory,
     extras: CreationExtras = if (viewModelStoreOwner is HasDefaultViewModelProviderFactory) {
         viewModelStoreOwner.defaultViewModelCreationExtras
     } else {
@@ -21,6 +23,6 @@ inline fun <reified T : ViewModel> metroViewModel(
     },
 ): T = viewModel(
     viewModelStoreOwner = viewModelStoreOwner,
-    factory = LocalViewModelFactory.current,
+    factory = factory,
     extras = extras,
 )

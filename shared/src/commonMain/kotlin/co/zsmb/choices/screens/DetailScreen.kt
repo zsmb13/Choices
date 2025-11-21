@@ -27,12 +27,11 @@ fun DetailScreen(
     recordId: Long,
     onBack: () -> Unit,
 ) {
-    val viewModel =
-        metroViewModel<DetailViewModel>(
-            extras = CreationExtras {
-                set(DetailViewModel.RecordIdKey, recordId)
-            }
-        )
+    val viewModel = metroViewModel<DetailViewModel>(
+        extras = CreationExtras {
+            set(DetailViewModel.RecordIdKey, recordId)
+        }
+    )
 
     val record by viewModel.record.collectAsStateWithLifecycle()
 
