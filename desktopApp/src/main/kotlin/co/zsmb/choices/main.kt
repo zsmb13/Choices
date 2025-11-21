@@ -2,13 +2,11 @@ package co.zsmb.choices
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import co.zsmb.choices.data.getDatabaseBuilder
-import co.zsmb.choices.di.AppGraph
-import dev.zacsweers.metro.createGraphFactory
+import co.zsmb.choices.di.JvmAppGraph
+import dev.zacsweers.metro.createGraph
 
 fun main() = application {
-    val graph = createGraphFactory<AppGraph.Factory>()
-        .create(getDatabaseBuilder())
+    val graph = createGraph<JvmAppGraph>()
 
     Window(
         onCloseRequest = ::exitApplication,
