@@ -36,6 +36,14 @@ import co.zsmb.choices.data.RecordDao
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import co.zsmb.choices.data.Record
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +54,13 @@ fun ListScreen(
     val records by remember { dao.getAllAsFlow() }.collectAsStateWithLifecycle(emptyList())
     var menuForId by remember { mutableStateOf<Long?>(null) }
     val scope = rememberCoroutineScope()
+
+    var showMenu by remember { mutableStateOf(false) }
+    var showExportDialog by remember { mutableStateOf(false) }
+    var exportData by remember { mutableStateOf("") }
+    var showImportDialog by remember { mutableStateOf(false) }
+    var importData by remember { mutableStateOf("") }
+    val clipboardManager = LocalClipboardManager.current
 
     Scaffold(
         topBar = {
@@ -58,7 +73,36 @@ fun ListScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
-                )
+                ),
+                actions = {
+                    IconButton(onClick = { showMenu = true }) {
+                        Text("⋮", style = MaterialTheme.typography.titleLarge)
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Export All") },
+                            onClick = {
+                                showMenu = false
+                                scope.launch {
+                                    val allRecords = dao.getAll()
+                                    exportData = Json.encodeToString(allRecords)
+                                    showExportDialog = true
+                                }
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Import All") },
+                            onClick = {
+                                showMenu = false
+                                importData = ""
+                                showImportDialog = true
+                            }
+                        )
+                    }
+                }
             )
         }
     ) { padding ->
@@ -126,5 +170,73 @@ fun ListScreen(
                 Divider()
             }
         }
+    }
+
+    if (showExportDialog) {
+        AlertDialog(
+            onDismissRequest = { showExportDialog = false },
+            title = { Text("Export Records") },
+            text = {
+                OutlinedTextField(
+                    value = exportData,
+                    onValueChange = {},
+                    readOnly = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        clipboardManager?.setText(AnnotatedString(exportData))
+                        showExportDialog = false
+                    }
+                ) {
+                    Text("Copy")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showExportDialog = false }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+
+    if (showImportDialog) {
+        AlertDialog(
+            onDismissRequest = { showImportDialog = false },
+            title = { Text("Import Records") },
+            text = {
+                OutlinedTextField(
+                    value = importData,
+                    onValueChange = { importData = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("Paste JSON here") }
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            try {
+                                val records = Json.decodeFromString<List<Record>>(importData)
+                                dao.deleteAll()
+                                dao.insertAll(records)
+                                showImportDialog = false
+                            } catch (e: Exception) {
+                                println("Import failed: $e")
+                            }
+                        }
+                    }
+                ) {
+                    Text("Import")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showImportDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }

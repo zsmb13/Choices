@@ -10,6 +10,9 @@ interface RecordDao {
     @Insert
     suspend fun insert(item: Record)
 
+    @Insert
+    suspend fun insertAll(items: List<Record>)
+
     @Query("SELECT count(*) FROM records")
     suspend fun count(): Int
 
@@ -18,6 +21,9 @@ interface RecordDao {
 
     @Query("SELECT * FROM records")
     fun getAllAsFlow(): Flow<List<Record>>
+
+    @Query("SELECT * FROM records")
+    suspend fun getAll(): List<Record>
 
     @Query("DELETE FROM records")
     suspend fun deleteAll()

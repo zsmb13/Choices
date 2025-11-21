@@ -23,6 +23,8 @@ jobs:
           java-version: 25
       - name: Assemble desktop jar
         run: ./gradlew :desktopApp:packageUberJarForCurrentOS
+      - name: Run shared JVM tests
+        run: ./gradlew :shared:jvmTest
 
   build-android:
     name: Build Android

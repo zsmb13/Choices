@@ -1,7 +1,7 @@
 package co.zsmb.choices.data
 
 import androidx.room.TypeConverter
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 object InstantTypeConverter {
     @TypeConverter
