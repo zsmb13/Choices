@@ -1,48 +1,55 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# Choices
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Choices is a Kotlin Multiplatform application built with Compose Multiplatform, designed to help you
+track your decisions and maintain a personal score.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Features
 
-### Build and Run Android Application
+- **Track Score:** Quickly add positive (+) or negative (-) records to your daily score.
+- **Add Context:** Attach optional comments to each entry to remember why you made that choice.
+- **History:** View a comprehensive list of all your past records.
+- **Details:** Inspect the specific details (score, comment, timestamp) of any record.
+- **Multiplatform Support:** Run the same experience on Android, iOS, and Desktop (JVM).
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :androidApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :androidApp:assembleDebug
-  ```
+## Tech Stack
 
-### Build and Run Desktop (JVM) Application
+This project demonstrates a modern Kotlin Multiplatform architecture leveraging the following
+libraries:
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :desktopApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :desktopApp:run
-  ```
+- **UI:** [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) (Material 3)
+- **Navigation:** [AndroidX Navigation 3](https://developer.android.com/jetpack/androidx/releases/navigation3) (Multiplatform support)
+- **Database:** [Room](https://developer.android.com/training/data-storage/room) (SQLite)
+- **Dependency Injection:** [Metro](https://github.com/ZacSweers/metro)
+- **Date & Time:** [Kotlinx DateTime](https://github.com/Kotlin/kotlinx-datetime)
+- **Serialization:** [Kotlinx Serialization](https://github.com/Kotlin/kotlinx.serialization)
 
-### Build and Run iOS Application
+## Project Structure
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+* `shared`: Contains the core logic and UI code shared across all platforms.
+    * `commonMain`: Code common to all targets.
+    * `androidMain`, `iosMain`, `jvmMain`: Platform-specific implementations.
+* `androidApp`: Android application entry point and configuration.
+* `iosApp`: iOS application entry point and configuration.
+* `desktopApp`: Desktop application entry point and configuration.
 
----
+## Building and Running
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### Android
+
+To run the Android app, use the `androidApp` run configuration in Android Studio or run:
+
+```bash
+./gradlew :androidApp:assembleDebug
+```
+
+### Desktop (JVM)
+
+To run the Desktop app, use the `desktopApp` run configuration in IntelliJ IDEA or run:
+
+```bash
+./gradlew :desktopApp:run
+```
+
+### iOS
+
+To run the iOS app, open `iosApp/iosApp.xcodeproj` in Xcode and run it from there.
