@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.CreationExtras
 import co.zsmb.choices.di.metroViewModel
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -24,10 +25,14 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun DetailScreen(
     recordId: Long,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val viewModel =
-        metroViewModel<DetailViewModel> { assistedDetailViewModelFactory.create(recordId) }
+        metroViewModel<DetailViewModel>(
+            extras = CreationExtras {
+                set(DetailViewModel.RecordIdKey, recordId)
+            }
+        )
 
     val record by viewModel.record.collectAsStateWithLifecycle()
 

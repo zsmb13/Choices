@@ -1,28 +1,26 @@
 package co.zsmb.choices.di
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlin.reflect.KClass
 
 
 @Composable
-inline fun <reified T : ViewModel> metroViewModel(): T =
-    viewModel(factory = LocalViewModelFactory.current)
-
-@Composable
-inline fun <reified VM : ViewModel> metroViewModel(
-    crossinline factory: AppGraph.() -> VM,
-): VM {
-    val appGraph = LocalAppGraph.current
-    return viewModel(
-        factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(
-                modelClass: KClass<T>,
-                extras: CreationExtras
-            ): T = appGraph.factory() as T
-        },
-    )
-}
+inline fun <reified T : ViewModel> metroViewModel(
+    viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    },
+    extras: CreationExtras = if (viewModelStoreOwner is HasDefaultViewModelProviderFactory) {
+        viewModelStoreOwner.defaultViewModelCreationExtras
+    } else {
+        CreationExtras.Empty
+    },
+): T = viewModel(
+    viewModelStoreOwner = viewModelStoreOwner,
+    factory = LocalViewModelFactory.current,
+    extras = extras,
+)

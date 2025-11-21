@@ -12,18 +12,25 @@ import kotlin.reflect.KClass
 @Inject
 @ContributesBinding(AppScope::class)
 class MetroViewModelFactory(
-    private val viewModelProviders: Map<KClass<out ViewModel>, Provider<ViewModel>>
+    private val viewModelProviders: Map<KClass<out ViewModel>, Provider<ViewModel>>,
+    private val viewModelFactories: Map<KClass<out ViewModel>, ViewModelProvider.Factory>,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
         val provider = viewModelProviders[modelClass]
-            ?: throw IllegalArgumentException("Unknown model class $modelClass")
+        val factory = viewModelFactories[modelClass]
 
+        @Suppress("UNCHECKED_CAST")
         return try {
-            @Suppress("UNCHECKED_CAST")
-            provider() as T
+            if (provider != null) {
+                provider()
+            } else if (factory != null) {
+                factory.create(modelClass, extras)
+            } else {
+                throw RuntimeException("No provider or factory found for $modelClass")
+            }
         } catch (e: Exception) {
             throw RuntimeException(e)
-        }
+        } as T
     }
 }
