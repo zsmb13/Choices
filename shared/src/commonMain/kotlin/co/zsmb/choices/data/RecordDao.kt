@@ -3,10 +3,17 @@ package co.zsmb.choices.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordDao {
+    @Transaction
+    suspend fun replaceAll(items: List<Record>) {
+        deleteAll()
+        insertAll(items)
+    }
+
     @Insert
     suspend fun insert(item: Record)
 

@@ -2,6 +2,7 @@ package co.zsmb.choices.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.zsmb.choices.data.DatabaseSeeder
 import co.zsmb.choices.data.Record
 import co.zsmb.choices.data.RecordDao
 import co.zsmb.choices.di.ViewModelKey
@@ -17,7 +18,8 @@ import kotlin.time.Clock
 @ContributesIntoMap(AppScope::class)
 @ViewModelKey(MainViewModel::class)
 class MainViewModel(
-    private val dao: RecordDao
+    private val dao: RecordDao,
+    private val seeder: DatabaseSeeder,
 ) : ViewModel() {
     val score = dao.score()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
@@ -31,6 +33,12 @@ class MainViewModel(
                     comment = comment?.trim()?.ifBlank { null },
                 )
             )
+        }
+    }
+
+    fun generateTestData() {
+        viewModelScope.launch {
+            seeder.seed()
         }
     }
 }
