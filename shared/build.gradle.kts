@@ -63,6 +63,8 @@ kotlin {
             // TODO make this an implementation dependency again
             api(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+
+            implementation(libs.calendar.compose.multiplatform)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

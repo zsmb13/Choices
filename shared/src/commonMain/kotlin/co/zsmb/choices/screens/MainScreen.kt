@@ -33,6 +33,7 @@ import co.zsmb.choices.di.metroViewModel
 @Composable
 fun MainScreen(
     onShowList: () -> Unit,
+    onShowCalendar: () -> Unit,
 ) {
     val viewModel: MainViewModel = metroViewModel()
     val score by viewModel.score.collectAsStateWithLifecycle()
@@ -113,6 +114,14 @@ fun MainScreen(
                 onClick = { viewModel.generateTestData() }
             ) {
                 Text("Test data")
+            }
+
+            Spacer(Modifier.width(8.dp))
+
+            TextButton(
+                onClick = onShowCalendar,
+            ) {
+                Text("Calendar")
             }
 
             Spacer(Modifier.width(8.dp))

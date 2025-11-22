@@ -12,4 +12,7 @@ data object MainRoute : AppRoute
 data object ListRoute : AppRoute
 
 @Serializable
+data object CalendarRoute : AppRoute
+
+@Serializable
 data class DetailRoute(val id: Long) : AppRoute
