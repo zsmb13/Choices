@@ -1,6 +1,5 @@
 package co.zsmb.choices.di
 
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.RoomDatabase
 import co.zsmb.choices.data.AppDatabase
 import co.zsmb.choices.data.RecordDao
@@ -10,7 +9,7 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 
 interface AppGraph {
-    val viewModelFactory: ViewModelProvider.Factory
+    val viewModelFactory: MetroViewModelFactory
 
     @Provides
     @SingleIn(AppScope::class)
