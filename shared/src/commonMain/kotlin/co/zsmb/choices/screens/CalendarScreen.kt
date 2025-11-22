@@ -178,21 +178,12 @@ private fun Day(
             val normalizedScore = (score / maxScore).coerceIn(-1f, 1f)
             
             when {
-                normalizedScore > 0 -> {
-                    // Positive: fade from light gray to green
-                    lerp(Color.LightGray, Color.Green, normalizedScore * 0.7f)
-                }
-                normalizedScore < 0 -> {
-                    // Negative: fade from light gray to red
-                    lerp(Color.LightGray, Color.Red, abs(normalizedScore) * 0.7f)
-                }
-                else -> {
-                    // Zero: light gray
-                    Color.LightGray
-                }
+                normalizedScore > 0 -> lerp(Color.Gray, Color.Green, normalizedScore * 0.9f)
+                normalizedScore < 0 -> lerp(Color.Gray, Color.Red, abs(normalizedScore) * 0.9f)
+                else -> Color.Gray
             }
         }
-    }
+    }.copy(alpha = 0.7f)
     
     Box(
         modifier = Modifier

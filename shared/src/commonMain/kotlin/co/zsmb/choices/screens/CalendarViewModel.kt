@@ -28,11 +28,11 @@ data class DayData(
 @ContributesIntoMap(AppScope::class)
 @ViewModelKey(CalendarViewModel::class)
 class CalendarViewModel(
-    private val dao: RecordDao,
+    dao: RecordDao,
 ) : ViewModel() {
     private val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     
-    private val _selectedDate = MutableStateFlow<LocalDate>(today)
+    private val _selectedDate = MutableStateFlow(today)
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
     
     val dayDataByDate = dao.getAllAsFlow()
