@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,8 +31,8 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import co.zsmb.choices.data.Record
 import co.zsmb.choices.di.metroViewModel
+import co.zsmb.choices.ui.RecordItem
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -223,32 +222,3 @@ private fun Day(
     }
 }
 
-@Composable
-private fun RecordItem(record: Record) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp)
-        ) {
-            Text(
-                text = if (record.score) "+" else "-",
-                style = MaterialTheme.typography.titleLarge,
-                color = if (record.score) Color.Green else Color.Red
-            )
-            if (record.comment != null) {
-                Text(
-                    text = record.comment,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-            Text(
-                text = record.timestamp.toLocalDateTime(TimeZone.currentSystemDefault()).time.toString(),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
