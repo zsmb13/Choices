@@ -7,9 +7,11 @@ import co.zsmb.choices.data.configureAndBuild
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
+import dev.zacsweers.metrox.viewmodel.MetroViewModelFactory
+import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 
-interface AppGraph {
-    val viewModelFactory: MetroViewModelFactory
+interface AppGraph : ViewModelGraph {
+    val metroVmf: MetroViewModelFactory
 
     @Provides
     @SingleIn(AppScope::class)

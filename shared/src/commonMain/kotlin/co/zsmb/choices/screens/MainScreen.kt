@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import co.zsmb.choices.di.metroViewModel
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 
 @Composable
 fun MainScreen(

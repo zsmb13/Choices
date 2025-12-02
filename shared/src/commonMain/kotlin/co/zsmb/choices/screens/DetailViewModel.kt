@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.zsmb.choices.data.Record
 import co.zsmb.choices.data.RecordDao
-import co.zsmb.choices.di.AssistedViewModelFactory
-import co.zsmb.choices.di.ViewModelFactoryKey
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -25,9 +25,9 @@ class DetailViewModel(
 
 
     @AssistedFactory
-    @ViewModelFactoryKey(DetailViewModel::class)
+    @ManualViewModelAssistedFactoryKey(Factory::class)
     @ContributesIntoMap(AppScope::class)
-    fun interface Factory : AssistedViewModelFactory {
+    fun interface Factory : ManualViewModelAssistedFactory {
         fun create(recordId: Long): DetailViewModel
     }
 }

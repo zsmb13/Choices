@@ -2,12 +2,8 @@ package co.zsmb.choices.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
+import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 
-
-val LocalAppGraph: ProvidableCompositionLocal<AppGraph> =
-    compositionLocalOf { error("App graph not set") }
 
 @Composable
 fun MetroGraphProvider(
@@ -15,7 +11,7 @@ fun MetroGraphProvider(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalAppGraph provides appGraph,
+        LocalMetroViewModelFactory provides appGraph.metroVmf,
         content = content,
     )
 }
