@@ -15,8 +15,6 @@ import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import kotlin.reflect.KClass
 
 interface AppGraph : ViewModelGraph {
-    val metroVmf: MetroViewModelFactory
-
     @Provides
     @SingleIn(AppScope::class)
     fun provideMetroViewModelFactory(

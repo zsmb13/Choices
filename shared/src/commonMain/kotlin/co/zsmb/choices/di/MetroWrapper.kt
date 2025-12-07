@@ -11,7 +11,7 @@ fun MetroGraphProvider(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalMetroViewModelFactory provides appGraph.metroVmf,
+        LocalMetroViewModelFactory provides appGraph.metroViewModelFactory,
         content = content,
     )
 }
